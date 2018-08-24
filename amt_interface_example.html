@@ -1,0 +1,82 @@
+<!-- Bootstrap v3.0.3 -->
+<link href="https://s3.amazonaws.com/mturk-public/bs30/css/bootstrap.min.css" rel="stylesheet" />
+<section class="container" id="Other" style="margin-bottom:15px; padding: 10px 10px; font-family: Verdana, Geneva, sans-serif; color:#333333; font-size:0.9em;">
+<div class="row col-xs-12 col-md-12"><!-- Instructions -->
+<div class="panel panel-primary">
+<div class="panel-heading"><strong>Instructions</strong></div>
+
+<div class="panel-body">
+<ul id="instructionsList">
+	<li>Your instructions.</li>
+</ul>
+</div>
+</div>
+<!-- End Instructions --><!-- Content Body --></div>
+</section>
+
+<div class="row" id="workContent">
+<div class="col-xs-12 col-md-6 col-md-offset-3"><!-- Content for Worker -->
+<table class="table table-condensed table-bordered">
+	<colgroup>
+		<col class="col-xs-4 col-md-4" />
+		<col class="col-xs-8 col-md-8" />
+	</colgroup>
+	<tbody>
+		<tr>
+			<td><label>Experiment link:</label></td>
+			<td id='linkPlace'><a href="..." id="hitLink" style="visibility:hidden" target="_blank">Click here to open the experiment in a new tab</a></td>
+		</tr>
+	</tbody>
+</table>
+<!-- End Content for Worker --><!-- Input from Worker -->
+
+<div class="form-group"><label for="surveycode">Provide the survey code here:</label> <input class="form-control" id="surveycode" name="surveycode" placeholder="e.g. abcd12345" required="" type="text" /></div>
+
+<div class="form-group"><label for="comments">Comments:</label><textarea class="form-control" id="comments" name="comments" rows="3"></textarea></div>
+<!-- End input from Worker --></div>
+</div>
+<!-- End Survey Link Layout --><!-- Please note that Bootstrap CSS/JS and JQuery are 3rd party libraries that may update their url/code at any time. Amazon Mechanical Turk (MTurk) is including these libraries as a default option for you, but is not responsible for any changes to the external libraries --><!-- External CSS references -->
+<link crossorigin="anonymous" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css" integrity="sha384-IS73LIqjtYesmURkDE9MXKbXqYA8rvKEp/ghicjem7Vc3mGRdQRptJSz60tvrB6+" rel="stylesheet" /><!-- Open internal style sheet --><!-- Close internal style sheet --><!-- External JS references --><script src="https://code.jquery.com/jquery-3.1.0.min.js"   integrity="sha256-cCueBR6CsyA4/9szpPfrX3s49M9vUU5BgtiJj06wt/s="   crossorigin="anonymous"></script><script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js" integrity="sha384-s1ITto93iSMDxlp/79qhWHi+LsIi9Gx6yL+cOKDuymvihkfol83TYbLbOw+W/wv4" crossorigin="anonymous"></script><!-- Open internal javascript --><script>
+  $(document).ready(function() {
+    // Instructions expand/collapse
+    var content = $('#instructionBody');
+    var trigger = $('#collapseTrigger');
+    content.hide();
+    $('.collapse-text').text('(Click to expand)');
+    trigger.click(function(){
+      content.toggle();
+      var isVisible = content.is(':visible');
+      if(isVisible){
+        $('.collapse-text').text('(Click to collapse)');
+      }else{
+        $('.collapse-text').text('(Click to expand)');
+      }
+    });
+    // end expand/collapse
+  });
+</script><!-- Close internal javascript --><script type="text/javascript">
+  var linkPlace = document.getElementById('linkPlace');
+  var mturkworkerID = "";
+  var paramstr = window.location.search.substring(1);
+  var parampairs = paramstr.split("&");
+  for (i in parampairs) {
+    var pair = parampairs[i].split("=");
+    console.log("param pair: " + pair);
+    if (pair[0] == "workerId") {
+      mturkworkerID = pair[1];
+    }
+  }
+
+  var debugMode = false;
+
+  if (!debugMode && mturkworkerID == "" ) {
+    linkPlace.innerHTML =('The experiment link will appear here only if you accept this HIT');
+  }
+  else {
+    linkPlace.innerHTML =('<a href="..." id="hitLink" style="visibility:hidden" target="_blank">Click here to open the experiment in a new tab</a>');
+    var hitLink = document.getElementById('hitLink');
+    var myURL = 'http://yourhost/amt/?amt=' + mturkworkerID;
+    hitLink.setAttribute('href',myURL);
+    hitLink.style.visibility='visible';
+  }
+</script>
