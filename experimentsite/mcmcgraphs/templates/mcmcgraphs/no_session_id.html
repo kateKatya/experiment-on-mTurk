@@ -1,0 +1,36 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="robots" content="noindex" />
+    <title>Access Error</title>
+    <link rel="shortcut icon" href="{% static "mcmcgraphs/images/favicon.ico" %}" />
+    <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.min.css" rel="stylesheet" id="bootstrap-css">
+    <script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/js/bootstrap.min.js"></script>
+    <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+</head>
+<body>
+<div class="container" style="margin-top: 25px; text-align: center">
+    <div class="row">
+    <div class="error-template">
+	    <h1>Oops!</h1>
+	    <h2>Access Denied</h2>
+	    <div class="error-details" style="width: 540px; margin: 0 auto;">
+		    <p>
+                Sorry, an error has occurred - we seem to not have a record of your consent for the experiment or
+                your session might have expired.
+                Please make sure your browser has <b>cookies switched on</b> and access the experiment via the
+                mTurk interface.
+            </p>
+	    </div>
+	    <div class="error-actions">
+		<a href="mailto:name@domain.com" class="btn btn-default">
+		    <i class="icon-envelope"></i> Contact Support </a>
+	    </div>
+	</div>
+    </div>
+</div>
+</body>
+</html>

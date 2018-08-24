@@ -1,0 +1,60 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="robots" content="noindex" />
+    <title>Experiment Trials</title>
+    <link rel="shortcut icon" href="{% static "mcmcgraphs/images/favicon.ico" %}" />
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css">
+    <link rel="stylesheet" href="{% static 'mcmcgraphs/style.css' %}">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script>
+        function copyCode() {
+          var copyText = document.getElementById("code");
+          copyText.select();
+          document.execCommand("copy");
+          alert("Copied the code: " + copyText.value);
+        }
+    </script>
+</head>
+<body style="background-color: #F5F8FF">
+    <div class="container" style="width: 1000px; background-color: white; min-height:100vh; height: 100%; margin: 0 auto; padding: 0px">
+        <div class="topnav">
+            <a href="{% url 'mcmcgraphs:instructions' %}">Instructions</a>
+            <a class="active" href="{% url 'mcmcgraphs:trials' %}">Trials</a>
+        </div>
+        <div style="width: 750px; text-align: center; margin: 0 auto; margin-bottom: 0;">
+            <h3 style="text-align: center">Experiment Trials</h3>
+            <p>
+                The experiment trials are now completed. You can see the feedback below.
+            </p>
+        </div>
+        <div class="progress" style="width: 500px; margin-right: 250px; margin-bottom: 2px">
+          <div class="progress-bar progress-bar-success progress-bar-striped" role="progressbar"
+          aria-valuenow="10" aria-valuemin="0" aria-valuemax="100" style="width:{{ participant.trials_progress }}%; color: black; background-color: rgba(82, 190, 128, 0.5)">
+            <b>{{ participant.trials_stage }}/12</b>
+          </div>
+        </div>
+        <br>
+        <div style="width: 750px; text-align: justify; margin: 0 auto; margin-bottom: 1em;">
+            <h4><b>Feedback</b></h4>
+            <p>
+                Thank you for completing the trials!
+                You have made a correct selection <b>{{ participant.trials_precision }}%</b> of times.
+                Note, that this feedback is for your information only. To complete HIT copy and paste the unique code below into the mTurk page.
+            </p>
+        </div>
+        <div style="margin-bottom: 10px;">
+            <h4><b>Unique code</b></h4>
+            <input type="text" value="{{ participant.unique_code }}" id="code" readonly size="35" style="vertical-align: bottom; margin-bottom: 1px">
+            <button onclick="copyCode()" type="button" class="btn btn-default">
+                <i class="glyphicon glyphicon-duplicate" style="margin-right: 7px"></i>Copy code
+            </button>
+        </div>
+    </div>
+</body>
+</html>

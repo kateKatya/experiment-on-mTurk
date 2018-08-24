@@ -1,0 +1,264 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="robots" content="noindex" />
+    <title>Experiment Trials</title>
+    <link rel="shortcut icon" href="{% static "mcmcgraphs/images/favicon.ico" %}" />
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css">
+    <link rel="stylesheet" href="{% static 'mcmcgraphs/style.css' %}">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+    <script>
+         function disableNext() {
+             if (!document.getElementById("graphLeft").checked && !document.getElementById("graphRight").checked) {
+                 document.getElementById("submit").disabled = true;
+             }
+         }
+    </script>
+</head>
+<body style="background-color: #F5F8FF" onload="disableNext()">
+    <div class="container" style="width: 1000px; background-color: white; min-height:100vh; height: 100%; margin: 0 auto; padding: 0px">
+        <div class="topnav">
+            <a href="{% url 'mcmcgraphs:instructions' %}">Instructions</a>
+            <a class="active" href="{% url 'mcmcgraphs:trials' %}">Trials</a>
+        </div>
+        <div style="width: 750px; text-align: center; margin: 0 auto; margin-bottom: 0;">
+            <h3 style="text-align: center">Experiment Trials</h3>
+            <p>
+                Click on the chart that <i>your condition here</i>. Click "Next" to submit your choice.
+            </p>
+        </div>
+        <div class="progress" style="width: 500px; margin-right: 250px; margin-bottom: 2px">
+          <div class="progress-bar progress-bar-success progress-bar-striped" role="progressbar"
+          aria-valuenow="10" aria-valuemin="0" aria-valuemax="100" style="width:{{ participant.trials_progress }}%; color: black; background-color: rgba(82, 190, 128, 0.5)">
+            <b>{{ participant.trials_stage }}/12</b>
+          </div>
+        </div>
+        <div class="containerLeft" style="display: inline-block">
+            <div id="graphLeft" class="chart" style="height: 450px; width: 450px; margin: 0 auto">
+                <script>
+                    var chartLeft = Highcharts.chart('graphLeft', {
+                        credits: {
+                          enabled: false
+                        },
+                        legend: {
+                            enabled: false
+                        },
+                        exporting: {
+                            enabled: false
+                        },
+                        tooltip: {
+                            enabled: false
+                        },
+                        chart: {
+                            type: 'scatter',
+                            zoomType: false,
+                            backgroundColor: 'white',
+                            plotBorderColor: '#9E9E9E',
+                            plotBorderWidth: 1,
+                            marginBottom: 40
+                        },
+                        title: {
+                            text: ''
+                        },
+                        xAxis: {
+                            title: {
+                                enabled: true,
+                                text: 'X-value (units)'
+                            },
+                            min: 1,
+                            max: 7,
+                            tickInterval: 1,
+                            gridLineWidth: 0,
+                            tickLength: 7,
+                            tickWidth: 2,
+                            plotLines: [{ // mark the end of observations
+                                color: 'grey',
+                                width: 1,
+                                value: 4.5,
+                                dashStyle: 'dash'
+                            }],
+                        },
+                        yAxis: {
+                            title: {
+                                enabled: true,
+                                text: 'Y-value (units)'
+                            },
+                            min: 0,
+                            max: 200,
+                            gridLineWidth: 0,
+                            tickLength: 7,
+                            tickWidth: 2
+                        },
+                        plotOptions: {
+                            scatter: {
+                                marker: {
+                                    radius: 2.5,
+                                    states: {
+                                        hover: {
+                                            enabled: false,
+                                            lineColor: 'rgb(100,100,100)'
+                                        }
+                                    }
+                                },
+                                states: {
+                                    hover: {
+                                        marker: {
+                                            enabled: false
+                                        }
+                                    }
+                                },
+                                tooltip: {
+                                    headerFormat: '<b>{series.name}</b><br>',
+                                    pointFormat: '{point.x}, {point.y}'
+                                }
+                            }
+                        },
+                        series: [{
+                            name: 'Observations',
+                            color: 'rgba(223, 83, 83, 1)',
+                            data: {{ dataPrior }}
+                        }, {
+                            name: 'Predictions',
+                            color: 'rgba(119, 152, 191, 1)',
+                            data: {{ dataLeft }},
+                            marker: {
+                                radius: 3.5
+                            }
+                        }]
+                    });
+                    $('.containerLeft').click(function(){
+                        chartLeft.plotBackground.attr({
+                            fill: '#F4FBFF'
+                        });
+                        chartRight.plotBackground.attr({
+                            fill: 'white'
+                        });
+                        document.getElementById("submit").disabled = false;
+                        document.getElementById("chosenGraph").value = 'L';
+                    });
+                </script>
+            </div>
+        </div>
+        <div class="containerRight" style="display: inline-block">
+            <div id="graphRight" class="chart" style="height: 450px; width: 450px; margin: 0 auto">
+                <script>
+                    var chartRight = Highcharts.chart('graphRight', {
+                        credits: {
+                          enabled: false
+                        },
+                        legend: {
+                            enabled: false
+                        },
+                        exporting: {
+                            enabled: false
+                        },
+                        tooltip: {
+                            enabled: false
+                        },
+                        chart: {
+                            type: 'scatter',
+                            zoomType: false,
+                            backgroundColor: 'white',
+                            plotBorderColor: '#9E9E9E',
+                            plotBorderWidth: 1,
+                            marginBottom: 40
+                        },
+                        title: {
+                            text: ''
+                        },
+                        xAxis: {
+                            title: {
+                                enabled: true,
+                                text: 'X-value (units)'
+                            },
+                            min: 1,
+                            max: 7,
+                            tickInterval: 1,
+                            gridLineWidth: 0,
+                            tickLength: 7,
+                            tickWidth: 2,
+                            plotLines: [{ // mark the end of observations
+                                color: 'grey',
+                                width: 1,
+                                value: 4.5,
+                                dashStyle: 'dash'
+                            }],
+                        },
+                        yAxis: {
+                            title: {
+                                enabled: true,
+                                text: 'Y-value (units)'
+                            },
+                            min: 0,
+                            max: 200,
+                            gridLineWidth: 0,
+                            opposite: true,
+                            tickLength: 7,
+                            tickWidth: 2
+                        },
+                        plotOptions: {
+                            scatter: {
+                                marker: {
+                                    radius: 2.5,
+                                    states: {
+                                        hover: {
+                                            enabled: false,
+                                            lineColor: 'rgb(100,100,100)'
+                                        }
+                                    }
+                                },
+                                states: {
+                                    hover: {
+                                        marker: {
+                                            enabled: false
+                                        }
+                                    }
+                                },
+                                tooltip: {
+                                    headerFormat: '<b>{series.name}</b><br>',
+                                    pointFormat: '{point.x}, {point.y}'
+                                }
+                            }
+                        },
+                        series: [{
+                            name: 'Observations',
+                            color: 'rgba(223, 83, 83, 1)',
+                            data: {{ dataPrior }}
+                        }, {
+                            name: 'Predictions',
+                            color: 'rgba(119, 152, 191, 1)',
+                            data: {{ dataRight }},
+                            marker: {
+                                radius: 3.5
+                            }
+                        }]
+                    });
+                    $('.containerRight').click(function(){
+                        chartRight.plotBackground.attr({
+                            fill: '#F4FBFF'
+                        });
+                        chartLeft.plotBackground.attr({
+                            fill: 'white'
+                        });
+                        document.getElementById("submit").disabled = false;
+                        document.getElementById("chosenGraph").value = 'R';
+                    });
+                </script>
+            </div>
+        </div>
+        <div style="margin-bottom: 10px; margin-top: 0px">
+            <form action="{% url 'mcmcgraphs:trials' %}" method="post">
+            {% csrf_token %}
+                <input type="hidden" id = "chosenGraph" name="chosenGraph">
+                <input type="submit" name="submit" id="submit" value="Next" class="btn btn-default">
+            </form>
+        </div>
+    </div>
+</body>
+</html>

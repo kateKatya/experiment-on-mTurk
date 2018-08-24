@@ -1,0 +1,51 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="robots" content="noindex" />
+    <title>Experiment Completed</title>
+    <link rel="shortcut icon" href="{% static "mcmcgraphs/images/favicon.ico" %}" />
+    <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.min.css" rel="stylesheet" id="bootstrap-css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script>
+        function copyCode() {
+          var copyText = document.getElementById("code");
+          copyText.select();
+          document.execCommand("copy");
+          alert("Copied the code: " + copyText.value);
+        }
+    </script>
+</head>
+<body>
+<div class="container" style="margin-top: 25px; text-align: center">
+    <div class="row">
+    <div class="error-template">
+	    <h1>Thank You!</h1>
+	    <h2>Participation Completed</h2>
+	    <div class="error-details" style="width: 540px; margin: 0 auto;">
+		    <p>
+                You have reached this page, as it seems that you have already completed the experiment.
+                Note that you can complete this experiment only once. <br>
+                However, you can still view your unique code below. If your code states "Quiz failed" - please return the HIT,
+                as your job will be not approved.
+            </p>
+	    </div>
+        <div style="margin-bottom: 10px;">
+            <h4><b>Unique code</b></h4>
+            <input type="text" value="{{ participant.unique_code }}" id="code" readonly size="35" style="vertical-align: bottom; margin-bottom: 1px">
+            <button onclick="copyCode()" type="button" class="btn btn-default">
+                <i class="glyphicon glyphicon-duplicate" style="margin-right: 7px"></i>Copy code
+            </button>
+        </div>
+	    <div class="error-actions">
+		<a href="mailto:name@domain.com" class="btn btn-default">
+		    <i class="icon-envelope"></i> Contact Support </a>
+	    </div>
+	</div>
+    </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,111 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="robots" content="noindex" />
+    <link rel="shortcut icon" href="{% static "mcmcgraphs/images/favicon.ico" %}" />
+    <title>Experiment Introduction</title>
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css">
+    <link rel="stylesheet" href="{% static 'mcmcgraphs/style.css' %}">
+    <script>
+         function disableSubmit() {
+             if (!document.getElementById("terms").checked) {
+                 document.getElementById("submit").disabled = true;
+             }
+         }
+         function activateButton(element) {
+             if (element.checked) {
+                 document.getElementById("submit").disabled = false;
+              }
+             else {
+                 document.getElementById("submit").disabled = true;
+              }
+          }
+    </script>
+</head>
+<body onload="disableSubmit()">
+    <body>
+        <div style="width: 50%; padding: 0px; margin:0 auto;">
+            <h1 align="center"><a href="/">Experiment Intro</a></h1>
+        </div>
+
+        <div class="block-text">
+            <table>
+                <tbody>
+                    <tr>
+                        <td><p><cap>W</cap>elcome to the experiment! Please, read carefully the information below.</p>
+                            <p>
+                                You are being asked to take part in a research study on <i>your topic here</i>.
+                            </p>
+                            <p>This study is conducted as a part of <i>what</i> at <i>where</i>.</p>
+                        </td>
+                        <td><img src="{% static "mcmcgraphs/images/dummy_logo.png" %}" alt="Dummy University logo"
+                                 height="150" width="150" style="margin:5px 5px"/></td>
+                    </tr>
+                </tbody>
+            </table>
+            <hr>
+        </div>
+
+        <div class="block-text">
+            <h3>Participant Information Sheet</h3>
+            <h4><b>Project Summary</b></h4>
+            <p>
+                The aim of this study is to <i>more here</i>.
+            </p>
+            <h4><b>What will Happen</b></h4>
+            <p>
+                In this study, you will be asked to <i>instructions here</i>.
+            </p>
+            <h4><b>Time Commitment</b></h4>
+            <p>
+                The study typically takes <i>minutes/hours</i> to complete.
+            </p>
+            <h4><b>Participant's Rights</b></h4>
+            <p>
+                <i>List the rights here.</i>
+            </p>
+            <h4><b>Benefits & Risks</b></h4>
+            <p>
+                <i>What are the benefits and risks (if any)?</i>
+            </p>
+            <h4><b>Reimbursement & Compensation</b></h4>
+            <p>
+                You will receive <i>how much</i> in return for your participation via mTurk.
+                Note that you will not be able to participate unless you successfully answer 3 simple questions based on the instructions within 3 attempts.
+            </p>
+            <h4><b>Confidentiality & Anonymity</b></h4>
+            <p>
+                The data you provide to us will be used for <b>research</b> purposes <i>and so on</i>.
+            </p>
+            <h4><b>Further Information</b></h4>
+            <p>
+                If you have questions, concerns, suggestions, or complaint, please contact <b><i>Name Surname</i></b> via
+                <a href="mailto:name@domain.com?Subject=The%20Experiment" target="_top">this email</a>.
+            </p>
+
+            <hr>
+            <h3 align="center">Consent Form</h3>
+        </div>
+    </body>
+    <form action="{% url 'mcmcgraphs:instructions' %}" method="post">
+        {% csrf_token %}
+        <div style="width: 500px; border: 2px dotted #CCC; background-color: rgba(0,0,0,0.02); padding: 10px; margin:0 auto;">
+            <p align="left">
+                <input type="checkbox" name="terms" id="terms" onchange="activateButton(this)" value="True">  <b>Check here</b> to confirm that:
+                you have read and understood the Participant Information Sheet,
+                you are taking part in this research study voluntarily,
+                you are at least 18 years old,
+                and you are agreeing that your anonymised data may be shared in public repositories.
+            </p>
+        </div>
+        <br>
+        <div style="margin-bottom: 10px">
+            <input type="submit" name="submit" id="submit" value="Submit and Proceed">
+        </div>
+    </form>
+</body>
+</html>

@@ -1,0 +1,36 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="robots" content="noindex" />
+    <title>Experiment Trials</title>
+    <link rel="shortcut icon" href="{% static "mcmcgraphs/images/favicon.ico" %}" />
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css">
+    <link rel="stylesheet" href="{% static 'mcmcgraphs/style.css' %}">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+<body style="background-color: #F5F8FF">
+    <div class="container" style="width: 1000px; background-color: white; min-height:100vh; height: 100%; margin: 0 auto; padding: 0px">
+        <div class="topnav">
+            <a href="{% url 'mcmcgraphs:instructions' %}">Instructions</a>
+            <a class="active" href="{% url 'mcmcgraphs:trials' %}">Trials</a>
+        </div>
+        <div style="width: 750px; text-align: justify; margin: 0 auto; margin-bottom: 1em;">
+            <h3 style="text-align: center">Questionnaire: Not Passed</h3>
+            <h4><b>Feedback</b></h4>
+            <p>
+                Thank you for your interest in the experiment. Unfortunately, you have exceeded the maximum amount of attempts allowed to pass the quiz.
+                This means that you won't be able to proceed to the trials, as the experiment requires a good understanding of the instructions.
+            </p>
+            <hr>
+            <p>
+                You can now close the website and <b>return the HIT</b>. Note, this is not going to affect your ranking on Amazon mTurk.
+            </p>
+        </div>
+    </div>
+</body>
+</html>

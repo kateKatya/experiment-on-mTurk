@@ -1,0 +1,148 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="robots" content="noindex" />
+    <title>Instructions</title>
+    <link rel="shortcut icon" href="{% static "mcmcgraphs/images/favicon.ico" %}" />
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css">
+    <link rel="stylesheet" href="{% static 'mcmcgraphs/style.css' %}">
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+</head>
+<body style="background-color: #F5F8FF">
+    <div class="container" style="width: 1000px; background-color: white; margin: 0 auto; padding: 0px; min-height:100vh; height: 100%;">
+        <div class="topnav">
+            <a class="active" href="{% url 'mcmcgraphs:instructions' %}">Instructions</a>
+            <a href="{% url 'mcmcgraphs:trials' %}">Trials</a>
+        </div>
+        <div style="width: 750px; text-align: justify; margin: 0 auto; margin-bottom: 0;">
+            <h3 style="text-align: center">Instructions</h3>
+            <h4><b>Background</b></h4>
+            <p>
+                <i>The background here.</i>
+            </p>
+            <h4><b>Task</b></h4>
+            <p>
+               <i>The task here, plus a dummy graph below:</i>
+            </p>
+            <div id="containerFull" style="height: 450px; width: 450px; margin-left: 150px; display: inline-block;" >
+                <script>
+                    Highcharts.chart('containerFull', {
+                        credits: {
+                          enabled: false
+                        },
+                        legend: {
+                            enabled: false
+                        },
+                        exporting: {
+                            enabled: false
+                        },
+                        tooltip: {
+                            enabled: false
+                        },
+                        chart: {
+                            type: 'scatter',
+                            zoomType: false,
+                            backgroundColor: 'transparent',
+                            plotBackgroundImage: '{% static "mcmcgraphs/images/question.png" %}',
+                            plotBorderColor: '#9E9E9E',
+                            plotBorderWidth: 1
+                        },
+                        title: {
+                            text: ''
+                        },
+                        xAxis: {
+                            title: {
+                                enabled: true,
+                                text: 'X-value (units)'
+                            },
+                            min: 1,
+                            max: 7,
+                            tickInterval: 1,
+                            gridLineWidth: 0,
+                            tickLength: 7,
+                            tickWidth: 2,
+                            plotLines: [{ // mark the end of observations
+                                color: 'grey',
+                                width: 1,
+                                value: 4.5,
+                                dashStyle: 'dash'
+                            }],
+                        },
+                        yAxis: {
+                            title: {
+                                enabled: true,
+                                text: 'Y-value (units)'
+                            },
+                            min: 0,
+                            max: 200,
+                            gridLineWidth: 0,
+                            tickLength: 7,
+                            tickWidth: 2
+                        },
+                        plotOptions: {
+                            scatter: {
+                                marker: {
+                                    radius: 2.5,
+                                    states: {
+                                        hover: {
+                                            enabled: false,
+                                            lineColor: 'rgb(100,100,100)'
+                                        }
+                                    }
+                                },
+                                states: {
+                                    hover: {
+                                        marker: {
+                                            enabled: false
+                                        }
+                                    }
+                                },
+                                tooltip: {
+                                    headerFormat: '<b>{series.name}</b><br>',
+                                    pointFormat: '{point.x}, {point.y}'
+                                }
+                            }
+                        },
+                        series: [{
+                            name: 'Observations',
+                            color: 'rgba(223, 83, 83, 1)',
+                            data: {{ dataShow }}
+                        }]
+                    });
+                </script>
+            </div>
+            <p>
+                Prior to the trials, you will be asked to answer three questions based on the instructions.
+                To proceed to the experiment you will need to pass the quiz by <b>answering all of the questions correctly</b>. You will have <b>three attempts</b>.
+                Once successfully completed the quiz, you will proceed to the main task:
+            </p>
+            <blockquote>
+                <ul>
+                    <li>
+                        From the two graphs presented, <i>etc</i>.
+                    </li>
+                </ul>
+            </blockquote>
+            <p>
+                There will be <i>12</i> choices to make. You can submit a choice only
+                once (no returning to previous selections). A green bar on top of the page will show your progress.
+            </p>
+            <h4><b>Results</b></h4>
+            <p>
+                Once you complete the task, you will receive a completion code and feedback about your accuracy in the task.
+                The feedback shows how accurate your guesses were with respect to the actual population growth, and is for your information only.
+            </p>
+            <p>
+                In order to complete the HIT you will need to paste the completion code into the appropriate box on the HIT launch page.
+            </p>
+        </div>
+        <div style="margin-bottom: 10px">
+            <a href="{% url 'mcmcgraphs:trials' %}" class="btn btn-default" role="button">Start Trials</a>
+        </div>
+    </div>
+</body>
+</html>

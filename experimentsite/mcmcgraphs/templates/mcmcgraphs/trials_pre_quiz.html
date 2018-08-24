@@ -1,0 +1,89 @@
+{% load static %}
+{% load shuffle %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="robots" content="noindex" />
+    <title>Experiment Trials</title>
+    <link rel="shortcut icon" href="{% static "mcmcgraphs/images/favicon.ico" %}" />
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css">
+    <link rel="stylesheet" href="{% static 'mcmcgraphs/style.css' %}">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script>
+        function sendData(){
+            var response_data = []
+            var question_objs = $('.col-topic');
+
+            for(i=0;i<question_objs.length;i++){
+                var choice_id = $('input[name=question'+String(i+1)+']:checked', '#quiz').val();
+                response_data.push(choice_id);
+            }
+
+            document.getElementById("choices").value = response_data;
+        }
+    </script>
+    <script>
+         function modifySubmit() {
+             var totalQuestions = $('.questions').length;
+             var totalAnswers = $('.questions').find(':radio:checked').length;
+             if (totalQuestions == totalAnswers) {
+                 document.getElementById("submit").disabled = false;
+                 sendData();
+             }
+             else {
+                 document.getElementById("submit").disabled = true;
+             }
+         }
+    </script>
+</head>
+<body style="background-color: #F5F8FF" onload="modifySubmit()">
+    <div class="container" style="width: 1000px; background-color: white; min-height:100vh; height: 100%; margin: 0 auto; padding: 0px">
+        <div class="topnav">
+            <a href="{% url 'mcmcgraphs:instructions' %}">Instructions</a>
+            <a class="active" href="{% url 'mcmcgraphs:trials' %}">Trials</a>
+        </div>
+        <div style="width: 750px; text-align: justify; margin: 0 auto; margin-bottom: 1em;">
+            <h3 style="text-align: center">Questionnaire</h3>
+            <p>
+                Before proceeding to experiment trials, please complete a short questionnaire.
+                Each question has only one correct answer.
+                You will be redirected to trials if you answer <b>all</b> of the questions correctly.
+            </p>
+            {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+            <hr>
+        </div>
+        <div style="width: 750px; text-align: justify; margin: 0 auto; margin-bottom: 1em;">
+        <form id="quiz">
+            <ol>
+            {% for question in questions %}
+                <li>
+                <div class="questions">
+                    <div class="col-topic">
+                        <label><h4>{{ question.question_text }}</h4></label>
+                    </div>
+                    {% for choice in question.choice_set.all|shuffle %}
+                        <div class="selections">
+                            <input type="radio" name="question{{ forloop.parentloop.counter }}" value="{{ choice.id }}" onchange="modifySubmit()" />
+                            <label for="choice{{ forloop.counter }}" style="font-weight:normal;">{{ choice.choice_text }}</label><br />
+                        </div>
+                    {% endfor %}
+                </div>
+                </li>
+            {% endfor %}
+            </ol>
+        </form>
+        </div>
+        <div style="margin-bottom: 10px">
+            <form action="{% url 'mcmcgraphs:vote' %}" method="post">
+                {% csrf_token %}
+                <input type="hidden" id = "choices" name="choices">
+                <input type="submit" name="submit" id="submit" value="Submit" class="btn btn-default">
+            </form>
+        </div>
+    </div>
+</body>
+</html>
