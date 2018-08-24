@@ -2,7 +2,7 @@
 
 ---
 ## Intro
-An example website that is built to run an experiment on Amazon Mechanical Turk using the Django framework. Includes an example of a quiz and an example of trials generated on-the-go, based on the user's responses. Django is nicely supported by PyCharm (professional version is free for [students](https://www.jetbrains.com/student/)).
+An example website that is built to run an experiment on Amazon Mechanical Turk using the Django framework. Includes an example of a quiz and an example of trials generated on-the-go, based on the user's responses. Django is nicely supported by PyCharm (professional version is free for [students](https://www.jetbrains.com/student/)). Django project is in the experimentsite folder.
 
 If deployed locally, you can access the website via http://127.0.0.1:8000/amt/?amt=debug and otherwise - http://yourhost/amt/?amt=debug
 
